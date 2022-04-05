@@ -1,8 +1,7 @@
+from os import environ
 from os.path import exists
 
 from pyrogram.client import Client
-
-from config import api_hash, api_id
 
 while True:
     session_name = input("Client name -> ")
@@ -13,8 +12,8 @@ while True:
 
 client = Client(
     session_name,
-    api_id,
-    api_hash,
+    environ["apiId"],
+    environ["apiHash"],
     device_model="Python Self-Bot",
     system_version="trolling",
 )

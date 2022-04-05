@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  main:
+    build: .
+    environment:
+      sessionName: "main"
+    env_file:
+      - "config.env"
+
+  # {name}:
+  #   build: .
+  #   environment:
+  #     sessionName: "{name}"
+  #   env_file:
+  #     - "config.env"

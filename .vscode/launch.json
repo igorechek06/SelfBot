@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Mian",
+      "type": "python",
+      "request": "launch",
+      "program": "main.py",
+      "envFile": "${workspaceFolder}/config.env",
+      "justMyCode": false,
+      "env": {
+        "sessionName": "main"
+      }
+    }
+  ]
+}

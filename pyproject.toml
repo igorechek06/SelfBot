@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "selfbot"
+version = "1.0"
+description = "Simple telegram self bot"
+authors = ["Igor Tolmachov <me@igorek.dev>"]
+license = "GPL-3.0"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Pyrogram = "^1.4.12"
+TgCrypto = "^1.2.3"
+
+[tool.poetry.dev-dependencies]
+black = "^22.3.0"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 90
+
+[tool.isort]
+profile = "black"

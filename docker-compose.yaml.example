@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  sessionName:
+     build: .
+     restart: "always"
+     environment:
+       sessionName: "sessionName"
+     env_file:
+       - "config.env"

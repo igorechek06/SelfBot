@@ -133,4 +133,4 @@ dmypy.json
 *.session
 *.session-journal
 *.env
-data/*
+docker-compose.yaml

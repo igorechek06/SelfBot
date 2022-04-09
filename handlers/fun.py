@@ -55,6 +55,7 @@ async def chars(_, msg: Message) -> None:
 @app.on_message(me & command("spam", "!"))
 async def spam(_, msg: Message) -> None:
     args = msg.command[1:]
+    rid = msg.reply_to_message.message_id if msg.reply_to_message is not None else None
     await throw("Too few arguments ({delay} {count} {f_message})", msg, len(args) >= 3)
     try:
         delay = float(args[0])
@@ -68,8 +69,40 @@ async def spam(_, msg: Message) -> None:
     await msg.delete()
     try:
         for i in range(count):
-            await msg.reply_text(text.format(*[eval(c, {"i": i}, {}) for c in code]))
+            await msg.reply_text(
+                text.format(*[eval(c, {"i": i}, {}) for c in code]),
+                quote=False,
+                reply_to_message_id=rid,
+            )
             await sleep(delay)
+    except:
+        pass
+
+
+@app.on_message(me & command("plan", "!"))
+async def plan(_, msg: Message) -> None:
+    args = msg.command[1:]
+    rid = msg.reply_to_message.message_id if msg.reply_to_message is not None else None
+    await throw("Too few arguments ({delay} {count} {f_message})", msg, len(args) >= 3)
+    try:
+        delay = int(args[0])
+        count = int(args[1])
+        text = " ".join(args[2:])
+        code = [m.group("code") for m in SPAM.finditer(text)]
+        text = SPAM.sub("{}", text)
+    except:
+        await throw("Incorrect arguments", msg)
+
+    await msg.delete()
+    date = msg.date + delay
+    try:
+        for i in range(count):
+            await msg.reply_text(
+                text.format(*[eval(c, {"i": i}, {}) for c in code]),
+                quote=False,
+                reply_to_message_id=rid,
+                schedule_date=date + i * delay,
+            )
     except:
         pass
 

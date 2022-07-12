@@ -1,7 +1,7 @@
 from asyncio import sleep
 from re import compile
 
-from pyrogram.filters import command, me
+from pyrogram.filters import command, me, private
 from pyrogram.types import Message
 
 from client import app
@@ -107,7 +107,7 @@ async def plan(_, msg: Message) -> None:
         pass
 
 
-@app.on_message(me & command("dice", "!"))
+@app.on_message(me & ~private & command("dice", "!"))
 async def dice(_, msg: Message):
     args = msg.command[1:]
     await throw("Too few arguments ({count} {dice} {value})", msg, len(args) >= 3)

@@ -31,7 +31,7 @@ async def words(_, msg: Message) -> None:
     await throw("Text is too big (max 75 words)", msg, len(text) <= 75)
 
     for i in range(len(text)):
-        await msg.edit_text(" ".join(text[:i]))
+        await msg.edit_text(" ".join(text[: i + 1]))
         await sleep(delay)
 
 

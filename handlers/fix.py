@@ -1,7 +1,6 @@
+from client import app
 from pyrogram.filters import forwarded, me
 from pyrogram.types import Message
-
-from client import app
 
 
 @app.on_message(me & forwarded)

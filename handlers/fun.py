@@ -2,7 +2,7 @@ from asyncio import sleep
 from re import compile
 from tempfile import NamedTemporaryFile as tmp
 
-from pyrogram.filters import audio, command, me, private
+from pyrogram.filters import audio, command, me, private, video
 from pyrogram.types import Message
 
 from client import app
@@ -157,6 +157,15 @@ async def dice(_, msg: Message):
 
 @app.on_message(me & audio & command("voice", "!"))
 async def voice(_, msg: Message) -> None:
+    await msg.delete()
     with tmp("w+b") as file:
         await msg.download(file.name)
-        await msg.reply_voice(file.name)
+        await msg.reply_voice(file.name, quote=False)
+
+
+@app.on_message(me & video & command("note", "!"))
+async def note(_, msg: Message) -> None:
+    await msg.delete()
+    with tmp("w+b") as file:
+        await msg.download(file.name)
+        await msg.reply_video_note(file.name, quote=False)

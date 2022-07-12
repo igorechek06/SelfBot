@@ -1,7 +1,8 @@
 from asyncio import sleep
 from re import compile
+from tempfile import NamedTemporaryFile as tmp
 
-from pyrogram.filters import command, me, private
+from pyrogram.filters import audio, command, me, private
 from pyrogram.types import Message
 
 from client import app
@@ -152,3 +153,10 @@ async def dice(_, msg: Message):
                     await m.delete()
         except Exception:
             pass
+
+
+@app.on_message(me & audio & command("voice", "!"))
+async def voice(_, msg: Message) -> None:
+    with tmp("w+b") as file:
+        await msg.download(file.name)
+        await msg.reply_voice(file.name)

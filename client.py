@@ -1,7 +1,8 @@
 import logging
 
-from config import *
 from pyrogram.client import Client
+
+from config import *
 
 app = Client(
     session_name,

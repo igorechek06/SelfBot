@@ -3,11 +3,21 @@ from re import compile
 from subprocess import PIPE, run
 from tempfile import NamedTemporaryFile as tmp
 
-from pyrogram.filters import animation, audio, command, me, private, video
+from pyrogram.filters import (
+    animation,
+    audio,
+    command,
+    document,
+    me,
+    private,
+    reply,
+    video,
+)
 from pyrogram.types import Message
 
 from client import app
 from libs.errors import throw
+from libs.util import download
 
 WIN_MAP = {
     "🎲": [6],
@@ -159,9 +169,9 @@ async def dice(_, msg: Message):
 @app.on_message(me & audio & command("voice", "!"))
 async def voice(_, msg: Message) -> None:
     await msg.delete()
-    with tmp("w+b") as file:
-        await msg.download(file.name)
-        await msg.reply_voice(file.name, quote=False)
+    file = await download(msg)
+    await msg.download(file.name)
+    await msg.reply_voice(file.name, quote=False)
 
 
 @app.on_message(me & (video | animation) & command("note", "!"))
@@ -171,13 +181,12 @@ async def note(_, msg: Message) -> None:
     inp = msg.animation or msg.video
     size = min(max(inp.height, inp.width), 512)
 
-    with tmp("w+b", suffix=inp.file_name.split(".")[1]) as inp_file:
-        await msg.download(inp_file.name)
-        with tmp("w+b", suffix=".mp4") as out_file:
-            run(
-                f"ffmpeg -y -i {inp_file.name} -vf scale={size}:{size},setsar=1:1 {out_file.name}",
-                stdout=PIPE,
-                stderr=PIPE,
-                shell=True,
-            )
-            await msg.reply_video_note(out_file.name, quote=False)
+    inp_file = await download(msg)
+    with tmp("w+b", suffix=".mp4") as out_file:
+        run(
+            f"ffmpeg -y -i {inp_file.name} -vf scale={size}:{size},setsar=1:1 {out_file.name}",
+            stdout=PIPE,
+            stderr=PIPE,
+            shell=True,
+        )
+        await msg.reply_video_note(out_file.name, quote=False)

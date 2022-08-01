@@ -24,6 +24,7 @@ async def copy(
         file = await download(msg, ".jpg")
         return await app.send_photo(
             photo=file.name,
+            caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=msg.reply_markup,
@@ -32,6 +33,7 @@ async def copy(
         file = await download(msg)
         return await app.send_audio(
             audio=file,
+            caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=msg.reply_markup,
@@ -40,6 +42,7 @@ async def copy(
         file = await download(msg)
         return await app.send_document(
             document=file,
+            caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=msg.reply_markup,
@@ -48,6 +51,7 @@ async def copy(
         file = await download(msg)
         return await app.send_video(
             video=file,
+            caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=msg.reply_markup,
@@ -56,6 +60,7 @@ async def copy(
         file = await download(msg)
         return await app.send_animation(
             animation=file,
+            caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=msg.reply_markup,
@@ -64,6 +69,7 @@ async def copy(
         file = await download(msg)
         return await app.send_voice(
             voice=file,
+            caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=msg.reply_markup,

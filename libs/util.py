@@ -123,6 +123,6 @@ async def copy(
 
 
 async def download(msg: Message, suffix: str = None) -> typing.IO:
-    file = tmp("wb+")
+    file = tmp("wb+", suffix=suffix)
     await msg.download(file.name)
     return file

@@ -32,7 +32,7 @@ async def copy(
     elif msg.audio:
         file = await download(msg)
         return await app.send_audio(
-            audio=file,
+            audio=file.name,
             caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
@@ -41,7 +41,7 @@ async def copy(
     elif msg.document:
         file = await download(msg)
         return await app.send_document(
-            document=file,
+            document=file.name,
             caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
@@ -50,7 +50,7 @@ async def copy(
     elif msg.video:
         file = await download(msg)
         return await app.send_video(
-            video=file,
+            video=file.name,
             caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
@@ -59,7 +59,7 @@ async def copy(
     elif msg.animation:
         file = await download(msg)
         return await app.send_animation(
-            animation=file,
+            animation=file.name,
             caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
@@ -68,7 +68,7 @@ async def copy(
     elif msg.voice:
         file = await download(msg)
         return await app.send_voice(
-            voice=file,
+            voice=file.name,
             caption=msg.caption,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
@@ -77,7 +77,7 @@ async def copy(
     elif msg.video_note:
         file = await download(msg)
         return await app.send_video_note(
-            video_note=file,
+            video_note=file.name,
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=msg.reply_markup,

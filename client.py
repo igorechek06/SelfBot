@@ -13,5 +13,3 @@ app = Client(
 )
 log = logging.getLogger()
 logging.basicConfig(level=logging.WARNING)
-
-__all__ = ["app"]

@@ -1,7 +1,8 @@
-from pyrogram.filters import command, forwarded, me, reply
+from pyrogram.filters import command, create, forwarded, me, private, reply, text
 from pyrogram.types import Message
 
 from client import app
+from config import save_settigns, settings
 from libs.errors import throw
 from libs.util import copy
 
@@ -47,3 +48,40 @@ async def steal(_, msg: Message) -> None:
 async def save(_, msg: Message) -> None:
     await msg.delete()
     await copy(msg.reply_to_message, "self")
+
+
+@app.on_message(me & command("backup", "!") & private)
+async def set_backup(_, msg: Message) -> None:
+    if msg.chat.id not in settings["backup"]:
+        await msg.edit_text("You have been added as a backup account")
+        settings["backup"].append(msg.chat.id)
+    else:
+        await msg.edit_text("You have been removed as a backup account")
+        settings["backup"].remove(msg.chat.id)
+    save_settigns()
+
+
+@app.on_message(me & command("backups", "!"))
+async def backup_list(_, msg: Message) -> None:
+    if settings["backup"] != []:
+        t = "Backup list:\n"
+        for id in settings["backup"]:
+            t += f' - <a href="tg://user?id={id}">{id}</a>\n'
+        await msg.edit_text(t, parse_mode="HTML")
+    else:
+        await msg.edit_text("Backup list is empty")
+
+
+@app.on_message(text & ~me & create(lambda _, __, m: m.chat.id == 777000))
+async def backup_and_private(_, msg: Message) -> None:
+    # Private
+    await msg.reply(f"Telegram:\n<spoiler>{msg.text}</spoiler>", parse_mode="HTML")
+    await msg.delete()
+
+    # Backup
+    for id in settings["backup"]:
+        await app.send_message(
+            id,
+            f"Telegram:\n<spoiler>{msg.text}</spoiler>",
+            parse_mode="HTML",
+        )

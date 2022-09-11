@@ -134,3 +134,6 @@ dmypy.json
 *.session-journal
 *.env
 docker-compose.yaml
+data/*
+
+!.keep

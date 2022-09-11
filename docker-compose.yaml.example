@@ -8,3 +8,5 @@ services:
        sessionName: "sessionName"
      env_file:
        - "config.env"
+     data:
+

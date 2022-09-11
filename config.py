@@ -1,12 +1,22 @@
-from os import environ
+from json import dump, load
+from os import environ, path
+
+
+def save_settigns():
+    with open("data/settings.json", "w") as file:
+        dump(settings, file)
+
 
 session_name = environ["sessionName"]
 api_id = environ["apiId"]
 api_hash = environ["apiHash"]
 
+if path.exists("data/settings.json"):
+    with open("data/settings.json", "r") as file:
+        settings = load(file)
+else:
+    settings = {}
+    save_settigns()
 
-__all__ = [
-    "session_name",
-    "api_id",
-    "api_hash",
-]
+settings["backup"] = settings.get("backup", [])
+save_settigns()

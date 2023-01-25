@@ -81,11 +81,14 @@ async def spam(_, msg: Message) -> None:
     await msg.delete()
     try:
         for i in range(count):
-            await msg.reply_text(
-                text.format(*[eval(c, {"i": i}, {}) for c in code]),
-                quote=False,
-                reply_to_message_id=rid,
-            )
+            if text in WIN_MAP:
+                await app.send_dice(msg.chat.id, text)
+            else:
+                await msg.reply_text(
+                    text.format(*[eval(c, {"i": i}, {}) for c in code]),
+                    quote=False,
+                    reply_to_message_id=rid,
+                )
             await sleep(delay)
     except:
         pass
@@ -109,17 +112,20 @@ async def plan(_, msg: Message) -> None:
     date = msg.date + delay
     try:
         for i in range(count):
-            await msg.reply_text(
-                text.format(*[eval(c, {"i": i}, {}) for c in code]),
-                quote=False,
-                reply_to_message_id=rid,
-                schedule_date=date + i * delay,
-            )
+            if text in WIN_MAP:
+                await app.send_dice(msg.chat.id, text)
+            else:
+                await msg.reply_text(
+                    text.format(*[eval(c, {"i": i}, {}) for c in code]),
+                    quote=False,
+                    reply_to_message_id=rid,
+                    schedule_date=date + i * delay,
+                )
     except:
         pass
 
 
-@app.on_message(me & ~private & command("dice", "!"))
+@app.on_message(me & command("dice", "!"))
 async def dice(_, msg: Message):
     args = msg.command[1:]
     await throw("Too few arguments ({count} {dice} {value})", msg, len(args) >= 3)

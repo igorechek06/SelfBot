@@ -113,7 +113,7 @@ async def plan(_, msg: Message) -> None:
     try:
         for i in range(count):
             if text in WIN_MAP:
-                await app.send_dice(msg.chat.id, text)
+                await app.send_dice(msg.chat.id, text, schedule_date=date + i * delay)
             else:
                 await msg.reply_text(
                     text.format(*[eval(c, {"i": i}, {}) for c in code]),

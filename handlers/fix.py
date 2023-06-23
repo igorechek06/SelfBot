@@ -78,10 +78,10 @@ async def backup_and_private(_, msg: Message) -> None:
     await msg.reply(f"Telegram:\n<spoiler>{msg.text}</spoiler>", parse_mode="HTML")
     await msg.delete()
 
-    # Backup
-    for id in settings["backup"]:
-        await app.send_message(
-            id,
-            f"Telegram:\n<spoiler>{msg.text}</spoiler>",
-            parse_mode="HTML",
-        )
+    # # Backup
+    # for id in settings["backup"]:
+    #     await app.send_message(
+    #         id,
+    #         f"Telegram:\n<spoiler>{msg.text}</spoiler>",
+    #         parse_mode="HTML",
+    #     )
